@@ -1,0 +1,24 @@
+mi_trapecio(expr,var,a,b,N):=block(
+    [a,h,result,i,ai],
+    h:b-a/N,
+
+    /* Para definir una función local dentro de un block */
+    /* primero usamos la función local, y a continuación */
+    /* definimos la función sobre la expresión */
+
+    local(f),    
+    define(f(x),subst(x,var,expr)),   
+
+    /* Calculamos los nodos y los metemos en una lista*/
+    a:makelist(a+i*(b-a)/N,i,0,N),
+
+    sumatoria:0,
+    for i:1 thru N-1 do(
+        ai: a + i*h,
+        sumatoria : sumatoria + f(ai)
+    ),
+
+   (b-a)/(2*N)*(f(a(0))+2*sumatoria+f(a(N)))
+);
+
+mi_trapecio(exp(x),x,1.8,3.4,2);
