@@ -1,5 +1,6 @@
 from sympy import *
 import math
+from collections import *
 
 x = Symbol('x')
 
@@ -11,7 +12,7 @@ Implements the bisection method for the root aproximation of a function.
     @param tol: maximum error permitted.
     @param n: maximum iterations permitted.
 '''
-def Bisection (f, a1, b1, tol, n):
+def Bisection (f, a1, b1, tol):
     # The interval don't satisfy Bolzano condition
     if f(a1) * f(b1) > 0:
         return "Invalid interval"
@@ -20,11 +21,12 @@ def Bisection (f, a1, b1, tol, n):
     if tol >= (b1 - a1)/2:
         return (b1 + a1)/2
 
+    Result = namedtuple('Result',['x','n'])
     a = a1
     b = b1
 
     m = 1
-    while tol <= (b - a)/2**(m+1) and m < n :
+    while tol <= (b - a)/2**(m+1):
         x = (b + a)/2
         # Founds the interval needed.
         if f(a) * f(x) < 0:
@@ -33,8 +35,9 @@ def Bisection (f, a1, b1, tol, n):
             a = x
 
         m += 1
-
-    return x
+        
+    r=Result(x,m)
+    return r
 
 '''
 Implements the Regula Falsi method for the root aproximation of a function.
@@ -50,7 +53,6 @@ def RegulaFalsi(f, a1, b1, n):
 
     a = a1
     b = b1
-
     m = 1
     while m < n :
         x = b - ((b - a) * f(b))/(f(b) - f(a))
@@ -64,7 +66,6 @@ def RegulaFalsi(f, a1, b1, n):
             a = x
 
         m += 1
-
     return x
 
 '''
