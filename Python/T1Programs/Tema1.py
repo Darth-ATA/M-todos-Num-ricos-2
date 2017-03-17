@@ -35,7 +35,7 @@ def Bisection (f, a1, b1, tol):
             a = x
 
         m += 1
-        
+
     r=Result(x,m)
     return r
 
@@ -90,14 +90,15 @@ def Secant(f, x0, x1, tol, n):
 
     return x2
 
-'''
-Implements the Newthon-Rhapson method for the root aproximation of a function.
-    @param f: function to calculate the root.
-    @param x0: initial aproximation.
-    @param tol: maximum error permitted.
-    @param n: maximum iterations permitted.
-'''
+
 def NewhtonRhapson(f, x0, tol, n):
+    '''
+    Implements the Newthon-Rhapson method for the root aproximation of a function.
+        @param f: function to calculate the root.
+        @param x0: initial aproximation.
+        @param tol: maximum error permitted.
+        @param n: maximum iterations permitted.
+    '''
     m = 1
 
     df = lambda X: diff(f(x),x).evalf(subs={x:X})
@@ -112,3 +113,33 @@ def NewhtonRhapson(f, x0, tol, n):
         m += 1
 
     return x1
+
+"""
+Implements the Horner method
+"""
+
+def Horner(pol, x0):
+    """
+    Implements the Horner aproximation method for calculate the value of p(x0) and p'(x0).
+        Args:
+            pol: polynomial to calculate the aproximation.
+            x0: value.
+        Return:
+            (r,r1): values of the polynomial and its diff.
+    """
+    ePol = pol.expand()
+    n = degree(ePol)
+    a = ePol.all_coeffs()
+    b = [x for x in a]
+
+    for k in range(1, n+1):
+        b[k] = a[k] + b[k-1]*x0
+
+    r = b[n]
+
+    c = [x for x in b]
+    for k in range(1, n+1):
+        c[k] = b[k] + c[k-1]*x0
+
+    r1 = c[n-1]
+    return (r,r1)

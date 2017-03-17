@@ -21,3 +21,10 @@ print "Secant result: ", x
 x = NewhtonRhapson(f, float(0), float(10**(-20)), 25)
 
 print "Newthon-Rhapson result: ", x
+
+y = Symbol('y')
+pol = Poly(2*(y**4) - 3*(y**2) + 3*y - 4, y)
+print pol
+n = Horner(pol, -2)
+print pol(-2)
+print "Horner result: ", n
